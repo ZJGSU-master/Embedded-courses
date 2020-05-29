@@ -14,6 +14,7 @@ int start;
 
 #define PIN_DHT11 12
 
+#define PIN_speakerPin 8
 DHT dht(PIN_DHT11, DHT11);
 //Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);  
 Adafruit_SSD1306 display(OLED_D1, OLED_D0, OLED_DC, OLED_RES, OLED_CS);  
@@ -25,6 +26,7 @@ Adafruit_SSD1306 display(OLED_D1, OLED_D0, OLED_DC, OLED_RES, OLED_CS);
 void setup()  
 {  
   Serial.begin(9600);  
+  pinMode(PIN_speakerPin, OUTPUT);
   Wire.begin();
   dht.begin();
   display.begin(SSD1306_SWITCHCAPVCC);//初始化
@@ -55,6 +57,18 @@ void loop()
   Serial.print("Temperature: ");  
   Serial.println(t);
 
+  if (t>=28){
+//    蜂鸣器
+    Serial.println("wWAWAWAWAWW");
+    tone(PIN_speakerPin,30); 
+    delay(1000);
+    noTone(PIN_speakerPin);
+//    digitalWrite(PIN_speakerPin,LOW);
+//    delay(1000);
+//    digitalWrite(PIN_speakerPin,HIGH);
+  }
+  
+  
   display.println("Temperature:");
   String  temperature=" ";
   temperature+=t;
